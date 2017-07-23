@@ -1,0 +1,2 @@
+we are logging a text message 
+Mon May 22 19:50:39 IST 2017
