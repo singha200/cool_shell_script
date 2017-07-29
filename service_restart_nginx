@@ -1,0 +1,65 @@
+#!/bin/bash
+
+function docmd()
+{
+    #echo 'func',"$1","$2"
+    if [ "$1" = "nginx" ];
+    then
+        if [ "$2" = "sh" ]; then
+            /home/asingh2/programs/nginx-1.6.0/sbin/nginx  -s stop
+        elif [ "$2" = "re" ]; then
+            /home/asingh2/programs/nginx-1.6.0/sbin/nginx
+            sleep 1
+            /home/asingh2/programs/nginx-1.6.0/sbin/nginx  -s stop
+        else
+            /home/asingh2/programs/nginx-1.6.0/sbin/nginx
+        fi
+    elif [ "$1" = "php-fpm" ]
+    then
+        if [ "$2" = "sh" ]; then
+            pkill php-fpm
+        elif [ "$2" = "re" ]; then
+            pkill php-fpm
+            sleep1
+            /home/asingh2/programs/php-5.4/sbin/php-fpm
+        else
+            /home/asingh2/programs/php-5.4/sbin/php-fpm
+        fi
+    elif [ "$1" = "apache2" ]
+    then
+        if [ "$2" = "sh" ]; then
+            sudo service apache2 stop
+        elif [ "$2" = "re" ]; then
+            sudo service apache2 restart
+        else
+            sudo service apache2 start
+        fi
+    elif [ "$1" = "mysql" ]
+    then
+        if [ "$2" = "sh" ]; then
+            sudo service mysql stop
+        elif [ "$2" = "re" ]; then
+            sudo service mysql restart
+        else
+            sudo service mysql start
+        fi
+    else
+        echo "Unrecognized verb",$1,$2
+    fi
+}
+
+cmd=""
+if [ "$1" == "restart" ]; then
+    cmd="re"
+elif [ "$1" == "stop" ]; then
+    cmd="sh"
+elif [ "$1" == "start" ]; then
+    cmd="st"
+fi
+
+for name in $@
+do
+    if [ "$name" != "start" ] && [ "$name" != "stop" ] && [ "$name" != "restart" ]; then
+        docmd $name $cmd
+    fi
+done
